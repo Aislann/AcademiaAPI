@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Academia_API.Models
 {
@@ -11,6 +12,7 @@ namespace Academia_API.Models
             Presencas = new HashSet<Presenca>();
         }
 
+        [Key]
         public int IdAluno { get; set; }
         public string? Nome { get; set; }
         public DateTime? DataNascimento { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Academia_API.Models
 {
@@ -9,7 +10,7 @@ namespace Academia_API.Models
         {
             Aulas = new HashSet<Aula>();
         }
-
+        [Key]
         public int IdInstrutor { get; set; }
         public string? Nome { get; set; }
         public string? Especialidade { get; set; }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Academia_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Academia_API.Controllers
 {
@@ -22,6 +23,7 @@ namespace Academia_API.Controllers
 
         // GET: api/Matriculas
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Matricula>>> GetMatriculas()
         {
           if (_context.Matriculas == null)
@@ -33,6 +35,7 @@ namespace Academia_API.Controllers
 
         // GET: api/Matriculas/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Matricula>> GetMatricula(int id)
         {
           if (_context.Matriculas == null)
@@ -52,6 +55,7 @@ namespace Academia_API.Controllers
         // PUT: api/Matriculas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutMatricula(int id, Matricula matricula)
         {
             if (id != matricula.IdMatricula)
@@ -83,6 +87,7 @@ namespace Academia_API.Controllers
         // POST: api/Matriculas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Matricula>> PostMatricula(Matricula matricula)
         {
           if (_context.Matriculas == null)
@@ -97,6 +102,7 @@ namespace Academia_API.Controllers
 
         // DELETE: api/Matriculas/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteMatricula(int id)
         {
             if (_context.Matriculas == null)

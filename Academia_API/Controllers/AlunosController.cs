@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Academia_API.Models;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace Academia_API.Controllers
 {
     [Route("api/[controller]")]
@@ -22,6 +24,7 @@ namespace Academia_API.Controllers
 
         // GET: api/Alunos
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Aluno>>> GetAlunos()
         {
           if (_context.Alunos == null)
@@ -33,6 +36,7 @@ namespace Academia_API.Controllers
 
         // GET: api/Alunos/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Aluno>> GetAluno(int id)
         {
           if (_context.Alunos == null)
@@ -52,6 +56,7 @@ namespace Academia_API.Controllers
         // PUT: api/Alunos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutAluno(int id, Aluno aluno)
         {
             if (id != aluno.IdAluno)
@@ -83,6 +88,7 @@ namespace Academia_API.Controllers
         // POST: api/Alunos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Aluno>> PostAluno(Aluno aluno)
         {
           if (_context.Alunos == null)
@@ -97,6 +103,7 @@ namespace Academia_API.Controllers
 
         // DELETE: api/Alunos/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteAluno(int id)
         {
             if (_context.Alunos == null)

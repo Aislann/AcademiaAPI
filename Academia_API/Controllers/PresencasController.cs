@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Academia_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Academia_API.Controllers
 {
@@ -22,6 +23,7 @@ namespace Academia_API.Controllers
 
         // GET: api/Presencas
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Presenca>>> GetPresencas()
         {
           if (_context.Presencas == null)
@@ -33,6 +35,7 @@ namespace Academia_API.Controllers
 
         // GET: api/Presencas/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Presenca>> GetPresenca(int id)
         {
           if (_context.Presencas == null)
@@ -52,6 +55,7 @@ namespace Academia_API.Controllers
         // PUT: api/Presencas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutPresenca(int id, Presenca presenca)
         {
             if (id != presenca.IdPresenca)
@@ -83,6 +87,7 @@ namespace Academia_API.Controllers
         // POST: api/Presencas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Presenca>> PostPresenca(Presenca presenca)
         {
           if (_context.Presencas == null)
@@ -97,6 +102,7 @@ namespace Academia_API.Controllers
 
         // DELETE: api/Presencas/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeletePresenca(int id)
         {
             if (_context.Presencas == null)

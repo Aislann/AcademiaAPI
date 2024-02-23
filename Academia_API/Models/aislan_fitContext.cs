@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
 namespace Academia_API.Models
 {
-    public partial class aislan_fitContext : DbContext
+    public partial class aislan_fitContext : IdentityDbContext<IdentityUser>
     {
         public aislan_fitContext()
         {
@@ -22,6 +29,11 @@ namespace Academia_API.Models
         public virtual DbSet<Matricula> Matriculas { get; set; } = null!;
         public virtual DbSet<Presenca> Presencas { get; set; } = null!;
 
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+        //}
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -31,18 +43,19 @@ namespace Academia_API.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Aluno>(entity =>
             {
                 entity.HasKey(e => e.IdAluno)
                     .HasName("PK__Aluno__8D231D091D250E59");
 
-                entity.ToTable("Aluno");
+                entity.ToTable("Alunos");
 
-                entity.Property(e => e.IdAluno).HasColumnName("id_aluno");
+                entity.Property(e => e.IdAluno).HasColumnName("IdAluno");
 
                 entity.Property(e => e.DataNascimento)
                     .HasColumnType("date")
-                    .HasColumnName("data_nascimento");
+                    .HasColumnName("DataNascimento");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
@@ -52,22 +65,23 @@ namespace Academia_API.Models
                 entity.Property(e => e.Endereco)
                     .HasMaxLength(100)
                     .IsUnicode(false)
-                    .HasColumnName("endereco");
+                    .HasColumnName("Endereco");
 
                 entity.Property(e => e.Genero)
                     .HasMaxLength(10)
                     .IsUnicode(false)
-                    .HasColumnName("genero");
+                    .HasColumnName("Genero");
 
                 entity.Property(e => e.Nome)
                     .HasMaxLength(50)
+
                     .IsUnicode(false)
-                    .HasColumnName("nome");
+                    .HasColumnName("Nome");
 
                 entity.Property(e => e.Telefone)
                     .HasMaxLength(15)
                     .IsUnicode(false)
-                    .HasColumnName("telefone");
+                    .HasColumnName("Telefone");
             });
 
             modelBuilder.Entity<Aula>(entity =>
@@ -75,25 +89,25 @@ namespace Academia_API.Models
                 entity.HasKey(e => e.IdAula)
                     .HasName("PK__Aula__B19134FE580EC32D");
 
-                entity.ToTable("Aula");
+                entity.ToTable("Aulas");
 
-                entity.Property(e => e.IdAula).HasColumnName("id_aula");
+                entity.Property(e => e.IdAula).HasColumnName("IdAula");
 
-                entity.Property(e => e.CapacidadeMaxima).HasColumnName("capacidade_maxima");
+                entity.Property(e => e.CapacidadeMaxima).HasColumnName("CapacidadeMaxima");
 
                 entity.Property(e => e.Descricao)
                     .HasMaxLength(100)
                     .IsUnicode(false)
-                    .HasColumnName("descricao");
+                    .HasColumnName("Descricao");
 
-                entity.Property(e => e.Horario).HasColumnName("horario");
+                entity.Property(e => e.Horario).HasColumnName("Horario");
 
-                entity.Property(e => e.IdInstrutor).HasColumnName("id_instrutor");
+                entity.Property(e => e.IdInstrutor).HasColumnName("IdInstrutor");
 
                 entity.Property(e => e.NomeAula)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("nome_aula");
+                    .HasColumnName("NomeAula");
 
                 entity.HasOne(d => d.IdInstrutorNavigation)
                     .WithMany(p => p.Aulas)
@@ -106,29 +120,29 @@ namespace Academia_API.Models
                 entity.HasKey(e => e.IdInstrutor)
                     .HasName("PK__Instruto__D670DEA1DD0029F3");
 
-                entity.ToTable("Instrutor");
+                entity.ToTable("Instrutors");
 
-                entity.Property(e => e.IdInstrutor).HasColumnName("id_instrutor");
+                entity.Property(e => e.IdInstrutor).HasColumnName("IdInstrutor");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("email");
+                    .HasColumnName("Email");
 
                 entity.Property(e => e.Especialidade)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("especialidade");
+                    .HasColumnName("Especialidade");
 
                 entity.Property(e => e.Nome)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("nome");
+                    .HasColumnName("Nome");
 
                 entity.Property(e => e.Telefone)
                     .HasMaxLength(15)
                     .IsUnicode(false)
-                    .HasColumnName("telefone");
+                    .HasColumnName("Telefone");
             });
 
             modelBuilder.Entity<Matricula>(entity =>
@@ -136,25 +150,25 @@ namespace Academia_API.Models
                 entity.HasKey(e => e.IdMatricula)
                     .HasName("PK__Matricul__1D7CF00B6D847D8B");
 
-                entity.ToTable("Matricula");
+                entity.ToTable("Matriculas");
 
-                entity.Property(e => e.IdMatricula).HasColumnName("id_matricula");
+                entity.Property(e => e.IdMatricula).HasColumnName("IdMatricula");
 
                 entity.Property(e => e.DataInicio)
                     .HasColumnType("date")
-                    .HasColumnName("data_inicio");
+                    .HasColumnName("DataInicio");
 
-                entity.Property(e => e.IdAluno).HasColumnName("id_aluno");
+                entity.Property(e => e.IdAluno).HasColumnName("IdAluno");
 
                 entity.Property(e => e.PlanoTreinamento)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("plano_treinamento");
+                    .HasColumnName("PlanoTreinamento");
 
                 entity.Property(e => e.StatusMatricula)
                     .HasMaxLength(20)
                     .IsUnicode(false)
-                    .HasColumnName("status_matricula");
+                    .HasColumnName("StatusMatricula");
 
                 entity.HasOne(d => d.IdAlunoNavigation)
                     .WithMany(p => p.Matriculas)
@@ -167,19 +181,19 @@ namespace Academia_API.Models
                 entity.HasKey(e => e.IdPresenca)
                     .HasName("PK__Presenca__F3BA19A7289CA42F");
 
-                entity.ToTable("Presenca");
+                entity.ToTable("Presencas");
 
-                entity.Property(e => e.IdPresenca).HasColumnName("id_presenca");
+                entity.Property(e => e.IdPresenca).HasColumnName("IdPresenca");
 
                 entity.Property(e => e.DataAula)
                     .HasColumnType("date")
-                    .HasColumnName("data_aula");
+                    .HasColumnName("DataAula");
 
-                entity.Property(e => e.Horario).HasColumnName("horario");
+                entity.Property(e => e.Horario).HasColumnName("Horario");
 
-                entity.Property(e => e.IdAluno).HasColumnName("id_aluno");
+                entity.Property(e => e.IdAluno).HasColumnName("IdAluno");
 
-                entity.Property(e => e.IdAula).HasColumnName("id_aula");
+                entity.Property(e => e.IdAula).HasColumnName("IdAula");
 
                 entity.HasOne(d => d.IdAlunoNavigation)
                     .WithMany(p => p.Presencas)
@@ -193,8 +207,11 @@ namespace Academia_API.Models
             });
 
             OnModelCreatingPartial(modelBuilder);
+
         }
+
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
+

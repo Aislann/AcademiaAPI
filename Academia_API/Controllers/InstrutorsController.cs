@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Academia_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Academia_API.Controllers
 {
@@ -22,6 +23,7 @@ namespace Academia_API.Controllers
 
         // GET: api/Instrutors
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Instrutor>>> GetInstrutors()
         {
           if (_context.Instrutors == null)
@@ -33,6 +35,7 @@ namespace Academia_API.Controllers
 
         // GET: api/Instrutors/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Instrutor>> GetInstrutor(int id)
         {
           if (_context.Instrutors == null)
@@ -52,6 +55,7 @@ namespace Academia_API.Controllers
         // PUT: api/Instrutors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutInstrutor(int id, Instrutor instrutor)
         {
             if (id != instrutor.IdInstrutor)
@@ -83,6 +87,7 @@ namespace Academia_API.Controllers
         // POST: api/Instrutors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Instrutor>> PostInstrutor(Instrutor instrutor)
         {
           if (_context.Instrutors == null)
@@ -97,6 +102,7 @@ namespace Academia_API.Controllers
 
         // DELETE: api/Instrutors/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteInstrutor(int id)
         {
             if (_context.Instrutors == null)

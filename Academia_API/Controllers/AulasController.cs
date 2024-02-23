@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Academia_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Academia_API.Controllers
 {
@@ -22,6 +23,7 @@ namespace Academia_API.Controllers
 
         // GET: api/Aulas
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Aula>>> GetAulas()
         {
           if (_context.Aulas == null)
@@ -33,6 +35,7 @@ namespace Academia_API.Controllers
 
         // GET: api/Aulas/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Aula>> GetAula(int id)
         {
           if (_context.Aulas == null)
@@ -52,6 +55,7 @@ namespace Academia_API.Controllers
         // PUT: api/Aulas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutAula(int id, Aula aula)
         {
             if (id != aula.IdAula)
@@ -83,6 +87,7 @@ namespace Academia_API.Controllers
         // POST: api/Aulas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Aula>> PostAula(Aula aula)
         {
           if (_context.Aulas == null)
@@ -97,6 +102,7 @@ namespace Academia_API.Controllers
 
         // DELETE: api/Aulas/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteAula(int id)
         {
             if (_context.Aulas == null)
